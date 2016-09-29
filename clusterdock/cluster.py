@@ -203,6 +203,7 @@ class Node(object):
 
         # Define a number of instance attributes that will get assigned proper values when the node
         # starts.
+        self.mem_limit = kwargs.get("mem_limit", "4g")
         self.cluster = None
         self.container_id = None
         self.host_config = None
@@ -240,6 +241,7 @@ class Node(object):
             'host_config': self.host_config,
             'detach': True,
             'command': self.command,
+            'mem_limit': self.mem_limit,
             'ports': self.ports,
             'volumes': [volume[host_location] for volume in self.volumes
                         for host_location in volume if self.volumes],

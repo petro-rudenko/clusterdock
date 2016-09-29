@@ -60,9 +60,10 @@ def start(args):
     YARN_RM_PORT = 8088
 
     primary_node = Node(hostname=args.primary_node[0], network=args.network,
-                        image=primary_node_image, ports=[CM_SERVER_PORT, HUE_SERVER_PORT, YARN_RM_PORT])
+                        image=primary_node_image, ports=[CM_SERVER_PORT, HUE_SERVER_PORT, YARN_RM_PORT],
+                        mem_limit="10gb")
 
-    secondary_nodes = [Node(hostname=hostname, network=args.network, image=secondary_node_image)
+    secondary_nodes = [Node(hostname=hostname, network=args.network, image=secondary_node_image, mem_limit="80g")
                        for hostname in args.secondary_nodes]
 
     secondary_node_group = NodeGroup(name='secondary', nodes=secondary_nodes)
