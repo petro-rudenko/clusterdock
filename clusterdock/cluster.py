@@ -227,6 +227,7 @@ class Node(object):
         host_configs['cap_add'] = ['ALL']
         host_configs['security_opt'] = ['seccomp:unconfined']
         host_configs['publish_all_ports'] = True
+        host_configs['mem_limit'] = self.mem_limit
 
         if self.volumes:
             host_configs['binds'] = self._get_binds()
@@ -241,7 +242,6 @@ class Node(object):
             'host_config': self.host_config,
             'detach': True,
             'command': self.command,
-            'mem_limit': self.mem_limit,
             'ports': self.ports,
             'volumes': [volume[host_location] for volume in self.volumes
                         for host_location in volume if self.volumes],
