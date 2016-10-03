@@ -41,7 +41,7 @@ DOCKER_CLIENT_TIMEOUT = 1800
 
 NETWORK_SUBNET_START = Constants.network.subnet_start # pylint: disable=no-member
 
-client = Client(timeout=DOCKER_CLIENT_TIMEOUT, version="1.18") # pylint: disable=invalid-name
+client = Client(timeout=DOCKER_CLIENT_TIMEOUT, version="1.21") # pylint: disable=invalid-name
 
 class ContainerNotFoundException(Exception):
     """An exception to raise when a particular Docker container cannot be found."""
