@@ -30,6 +30,7 @@ from docker import Client
 from docker.errors import APIError
 from docker.utils import create_ipam_pool
 
+from clusterdock import Constants
 from clusterdock.docker_utils import (get_container_ip_address,
                                       get_network_container_hostnames, get_network_subnet,
                                       get_available_network_subnet, is_container_reachable,
@@ -41,7 +42,7 @@ from clusterdock.ssh import ssh
 logger = logging.getLogger(__name__) # pylint: disable=invalid-name
 logger.setLevel(logging.INFO)
 
-client = Client() # pylint: disable=invalid-name
+client = Client(version=Constants.DEFAULT.docker_client_version) # pylint: disable=invalid-name
 
 class Cluster(object):
     """The central abstraction for dealing with Docker container clusters. Instances of this class

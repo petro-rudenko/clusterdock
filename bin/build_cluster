@@ -23,8 +23,6 @@ import sys
 from os.path import dirname, abspath
 from time import gmtime, strftime, time
 
-from docker import Client
-
 # This path hack allows this script to be run from any folder. Otherwise, running it from within
 # the bin directory would lead to problems importing modules in the clusterdock package.
 sys.path.insert(0, dirname(dirname(abspath(__file__))))
