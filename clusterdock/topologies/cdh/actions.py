@@ -15,17 +15,7 @@
 # limitations under the License.
 
 import logging
-from argparse import Namespace
-from collections import OrderedDict
-from datetime import datetime
-from os import makedirs
-from os.path import dirname, join
 from socket import getfqdn
-from sys import stdout
-from time import sleep
-from uuid import uuid4
-
-from docker import Client
 
 from clusterdock import Constants
 from clusterdock.cluster import Cluster, Node, NodeGroup
