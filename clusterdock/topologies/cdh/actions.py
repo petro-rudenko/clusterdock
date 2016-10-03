@@ -39,6 +39,11 @@ logger.setLevel(logging.INFO)
 
 DEFAULT_CLOUDERA_NAMESPACE = Constants.DEFAULT.cloudera_namespace # pylint: disable=no-member
 
+CM_SERVER_PORT = 7180
+HUE_SERVER_PORT = 8888
+YARN_RM_PORT = 8088
+YARN_NM_PORT = 8042
+
 def start(args):
     primary_node_image = "{0}/{1}/clusterdock:{2}_{3}_primary-node".format(
         args.registry_url, args.namespace or DEFAULT_CLOUDERA_NAMESPACE,
@@ -55,15 +60,13 @@ def start(args):
             logger.info("Pulling image %s. This might take a little while...", image)
             pull_image(image)
 
-    CM_SERVER_PORT = 7180
-    HUE_SERVER_PORT = 8888
-    YARN_RM_PORT = 8088
 
+    ports = [CM_SERVER_PORT, HUE_SERVER_PORT, YARN_RM_PORT, YARN_NM_PORT]
     primary_node = Node(hostname=args.primary_node[0], network=args.network,
-                        image=primary_node_image, ports=[CM_SERVER_PORT, HUE_SERVER_PORT, YARN_RM_PORT],
-                        mem_limit="10gb")
+                        image=primary_node_image, ports=ports,
+                        port_bindings={p:p for p in ports})
 
-    secondary_nodes = [Node(hostname=hostname, network=args.network, image=secondary_node_image, mem_limit="80g")
+    secondary_nodes = [Node(hostname=hostname, network=args.network, image=secondary_node_image, ports=[YARN_NM_PORT])
                        for hostname in args.secondary_nodes]
 
     secondary_node_group = NodeGroup(name='secondary', nodes=secondary_nodes)

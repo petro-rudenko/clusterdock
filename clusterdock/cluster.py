@@ -197,13 +197,14 @@ class Node(object):
         # Optional arguments are relegated to the kwargs dictionary, in part to keep Pylint happy.
         self.command = kwargs.get('command')
         self.ports = kwargs.get('ports')
+        self.port_bindings = kwargs.get('port_bindings', {port: None for port in self.ports})
         # /etc/localtime is always volume mounted so that containers have the same timezone as their
         # host machines.
         self.volumes = [{'/etc/localtime': '/etc/localtime'}] + kwargs.get('volumes', [])
 
         # Define a number of instance attributes that will get assigned proper values when the node
         # starts.
-        self.mem_limit = kwargs.get("mem_limit", "4g")
+        self.mem_limit = kwargs.get("mem_limit")
         self.cluster = None
         self.container_id = None
         self.host_config = None
@@ -228,6 +229,7 @@ class Node(object):
         host_configs['security_opt'] = ['seccomp:unconfined']
         host_configs['publish_all_ports'] = True
         host_configs['mem_limit'] = self.mem_limit
+        host_configs['port_bindings'] = self.port_bindings
 
         if self.volumes:
             host_configs['binds'] = self._get_binds()
